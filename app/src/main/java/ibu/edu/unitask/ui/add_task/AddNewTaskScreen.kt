@@ -1,7 +1,6 @@
-package ibu.edu.unitask.ui.taskadd
+package ibu.edu.unitask.ui.add_task
 
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,10 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -41,7 +37,6 @@ import ibu.edu.unitask.ui.components.datePickerDialog
 import ibu.edu.unitask.ui.navigation.NavigationDestination
 import ibu.edu.unitask.ui.navigation.UniTaskTopAppBar
 import ibu.edu.unitask.ui.utils.DateFormatter
-import java.util.Date
 
 object AddNewTaskDestination : NavigationDestination {
     override val route = "add_task"
@@ -119,6 +114,9 @@ fun AddNewTaskScreen(
                     }
                 )
 
+                Spacer(modifier = Modifier.height(20.dp))
+
+
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
@@ -127,11 +125,16 @@ fun AddNewTaskScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
-                            contentDescription = null
+                            contentDescription = null,
+                            modifier = modifier
+                                .size(40.dp)
                         )
-                        Spacer(modifier = modifier.size(4.dp))
-                        Text(text = DateFormatter(addTaskUiState.dueDate))
-                        Spacer(modifier = modifier.size(4.dp))
+                        Spacer(modifier = modifier.size(10.dp))
+                        Text(
+                            text = DateFormatter(addTaskUiState.dueDate),
+                            fontSize = 20.sp
+                        )
+                        Spacer(modifier = modifier.size(10.dp))
                         val mDatePicker = datePickerDialog(
                             context = LocalContext.current,
                             onDateSelected = {
@@ -155,19 +158,18 @@ fun AddNewTaskScreen(
 
             Column(
                 modifier = Modifier
-                    .padding(bottom = 16.dp)
+                    .padding(bottom = 16.dp, start = 20.dp, end = 20.dp)
                     .fillMaxHeight(),
                 verticalArrangement = Arrangement.Bottom
             ){
 
                 Button(onClick = {
-
                     viewModel.addTask(
                         Task(
                             title = addTaskUiState.taskTitle,
                             description = addTaskUiState.taskDescription,
                             dueDate = addTaskUiState.dueDate,
-                            course = addTaskUiState.taskCourse
+                            course = addTaskUiState.taskCourse.uppercase()
                         )
                     )
 

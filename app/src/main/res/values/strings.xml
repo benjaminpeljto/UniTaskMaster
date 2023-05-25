@@ -11,4 +11,8 @@
     <string name="add_task">Add task</string>
     <string name="add_a_new_task_top_bar_text">Add a new task</string>
     <string name="unitaskmanager_home_top_bar">UniTaskManager Home</string>
+    <string name="delete_button">Delete</string>
+    <string name="close_button">Close</string>
+    <string name="delete_task_dialog_title">Delete task</string>
+    <string name="are_you_sure">Are you sure?</string>
 </resources>

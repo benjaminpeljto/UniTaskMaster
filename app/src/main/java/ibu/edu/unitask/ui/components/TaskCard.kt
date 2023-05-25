@@ -10,10 +10,12 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -23,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ibu.edu.unitask.data.models.Task
 import ibu.edu.unitask.ui.utils.DateFormatter
+import ibu.edu.unitask.ui.utils.DateTester
 import java.util.Calendar
 
 @Composable
@@ -30,27 +33,33 @@ fun TaskCard(
     task: Task,
     onCheckedChange: (Task, Boolean) -> Unit,
     onDelete: (Task) -> Unit,
+    onEdit: (Int) -> Unit,
     isChecked: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    Card(
+    Surface(
+        shadowElevation = 4.dp,
         shape = RoundedCornerShape(20.dp),
         modifier = modifier
             .fillMaxWidth()
-            .padding(10.dp)
+            .padding(top = 10.dp, bottom = 10.dp, start = 20.dp, end = 20.dp)
+            .shadow(elevation = 4.dp, shape = RoundedCornerShape(20.dp))
     ) {
-        Column(
-            modifier = Modifier.padding(10.dp)
+        Card(
+            shape = RoundedCornerShape(20.dp),
+            modifier = modifier
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp)
             ) {
                 Checkbox(
                     checked = isChecked,
                     onCheckedChange = {
-                        onCheckedChange.invoke(task, it)
+                        onCheckedChange(task,it)
                     }
                 )
 
@@ -79,7 +88,6 @@ fun TaskCard(
 
                     Text(
                         text = task.title,
-                        modifier = Modifier.padding(top = 10.dp),
                         style = textStyleTitle
                     )
                     Text(
@@ -89,11 +97,16 @@ fun TaskCard(
                 }
                 Column (
                     modifier = modifier
-                        .padding(end = 10.dp)
-                        ){
+                        .padding(end = 10.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+
+                ){
+
                     Text(
                         text = DateFormatter(task.dueDate),
-                        fontSize = 17.sp,
+                        color= DateTester(task.dueDate,Calendar.getInstance().time),
+                        fontSize = 15.sp,
                         style = MaterialTheme.typography.labelMedium,
                         modifier = modifier.padding(end = 10.dp)
                     )
@@ -109,7 +122,7 @@ fun TaskCard(
                     Icon(
                         imageVector = Icons.Filled.Edit,
                         contentDescription = "Edit task button",
-                        modifier = Modifier.clickable { /*onEdit(task)*/ }
+                        modifier = Modifier.clickable { onEdit.invoke(task.id) }
                     )
 
                     Icon(
@@ -124,6 +137,7 @@ fun TaskCard(
             }
         }
     }
+
 }
 
 @Preview
@@ -142,6 +156,7 @@ fun TaskCardPreview() {
         onCheckedChange = { _, _ -> /* Handle checked change */ },
         onDelete = { /* Handle delete task */ },
         isChecked = false,
-        modifier = Modifier
+        modifier = Modifier,
+        onEdit = {}
     )
 }

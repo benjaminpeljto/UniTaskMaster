@@ -8,8 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ibu.edu.unitask.ui.home.HomeDestination
 import ibu.edu.unitask.ui.home.HomeScreen
-import ibu.edu.unitask.ui.taskadd.AddNewTaskDestination
-import ibu.edu.unitask.ui.taskadd.AddNewTaskScreen
+import ibu.edu.unitask.ui.add_task.AddNewTaskDestination
+import ibu.edu.unitask.ui.add_task.AddNewTaskScreen
 
 /**
  * Provides Navigation graph for the application.

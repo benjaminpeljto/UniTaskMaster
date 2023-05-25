@@ -1,12 +1,7 @@
 package ibu.edu.unitask.ui.home
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,14 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ibu.edu.unitask.R
-import ibu.edu.unitask.UniTaskApp
 import ibu.edu.unitask.data.models.Task
 import ibu.edu.unitask.ui.components.AllTasksCompleted
-import ibu.edu.unitask.ui.components.Header
-import ibu.edu.unitask.ui.components.TaskCard
+import ibu.edu.unitask.ui.components.CurrentTasks
+import ibu.edu.unitask.ui.delete_task_alert.DeleteTaskAlertDialog
+import ibu.edu.unitask.ui.edit_task.EditTaskAlertDialog
 import ibu.edu.unitask.ui.navigation.NavigationDestination
 import ibu.edu.unitask.ui.navigation.UniTaskTopAppBar
 import java.text.SimpleDateFormat
@@ -51,6 +45,11 @@ fun HomeScreen(
 
     val viewModel = viewModel(modelClass = HomeViewModel::class.java)
     val homeUiState = viewModel.state
+
+    if(homeUiState.confirmDelete){
+        viewModel.deleteTask(homeUiState.taskForDeletion)
+    }
+
 Scaffold (
     topBar = {
              UniTaskTopAppBar(
@@ -61,7 +60,7 @@ Scaffold (
     floatingActionButton = {
         FloatingActionButton(
             onClick = navigateToAddTask,
-            modifier = Modifier.navigationBarsPadding()
+            modifier = modifier.navigationBarsPadding()
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
@@ -71,39 +70,46 @@ Scaffold (
         }
     },
         ){innerPadding ->
-    if(homeUiState.value.tasks.isEmpty()){
+    if(homeUiState.tasks.isEmpty()){
         AllTasksCompleted()
     }
     else {
-
-        Column(
-            modifier = modifier
-                .padding(innerPadding)
-        ) {
-
-//*****************  Header  *****************//
-            Header(day = "Today")
-
-//*****************  TaskList  *****************//
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = modifier
-            ) {
-                items(homeUiState.value.tasks) { task ->
-                    TaskCard(
-                        task = task,
-                        isChecked = task.isFinished,
-                        onCheckedChange = { task, finished ->
-                            viewModel.onTaskCheckedChange(task,!finished)
-                        },
-                        onDelete = {
-                            viewModel.deleteTask(it)
-                        },
-                    )
-                }
-
+        CurrentTasks(
+            taskList =homeUiState.tasks,
+            padding = innerPadding,
+            onCheckedChange = { task, finished ->
+                viewModel.onTaskCheckedChange(task, finished)
+            },
+            deleteTask ={
+                viewModel.openDeleteDialog()
+                viewModel.assignTaskForDeletion(it)
+            },
+            onEdit ={
+                viewModel.assignTaskForEdit(it)
+                viewModel.openEditDialog()
             }
+        )
 
+        if(homeUiState.openEditDialog){
+            EditTaskAlertDialog(
+                onDismiss = {
+                            viewModel.closeEditDialog()
+                },
+                onConfirm ={
+                    viewModel.updateTask(it)
+                    viewModel.closeEditDialog()
+                },
+                taskForEditId = homeUiState.taskForEditId
+            )
+        }
+        if(homeUiState.openDeleteDialog){
+            DeleteTaskAlertDialog(
+                onDelete = {
+                    viewModel.confirmDeletion()
+                    viewModel.closeDeleteDialog()
+                },
+                onDismissRequest = {viewModel.closeDeleteDialog()}
+            )
         }
     }
 }
