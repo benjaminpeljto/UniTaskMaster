@@ -14,7 +14,7 @@ import ibu.edu.unitask.data.models.Task
 @TypeConverters(value = [DateConverter::class])
 @Database(
     entities = [Task::class],
-    version = 1,
+    version = 1,git
     exportSchema = false
 )
 abstract class UniTaskDatabase : RoomDatabase(){
