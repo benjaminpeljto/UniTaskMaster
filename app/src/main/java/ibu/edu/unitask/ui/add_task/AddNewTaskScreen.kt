@@ -1,6 +1,7 @@
 package ibu.edu.unitask.ui.add_task
 
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,9 +19,11 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,6 +32,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -75,7 +79,7 @@ fun AddNewTaskScreen(
             }
     ){innerPadding ->
         Column(
-            modifier = Modifier
+            modifier = Modifier.background(Color(0xFFF8F6F4))
                 .padding(innerPadding)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -89,12 +93,14 @@ fun AddNewTaskScreen(
                     modifier = Modifier
                         .padding(bottom = 16.dp, top = 16.dp)
                         .fillMaxWidth(),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyLarge
                 )
 
                 OutlinedTextField(
                     label = {
-                        Text(text = stringResource(R.string.task_title))
+                        Text(text = stringResource(R.string.task_title),
+                                style = MaterialTheme.typography.headlineLarge)
                     },
                     value = addTaskUiState.taskTitle,
                     onValueChange = { text ->
@@ -112,7 +118,8 @@ fun AddNewTaskScreen(
 
                 OutlinedTextField(
                     label = {
-                        Text(text = stringResource(R.string.task_description))
+                        Text(text = stringResource(R.string.task_description),
+                            style = MaterialTheme.typography.headlineLarge)
                     },
                     value = addTaskUiState.taskDescription,
                     onValueChange = {text ->
@@ -124,7 +131,8 @@ fun AddNewTaskScreen(
 
                 OutlinedTextField(
                     label = {
-                        Text(text = stringResource(R.string.task_course))
+                        Text(text = stringResource(R.string.task_course),
+                            style = MaterialTheme.typography.headlineLarge)
                     },
                     value = addTaskUiState.taskCourse,
                     onValueChange = {text ->
@@ -150,7 +158,8 @@ fun AddNewTaskScreen(
                         Spacer(modifier = modifier.size(10.dp))
                         Text(
                             text = DateFormatter(addTaskUiState.dueDate),
-                            fontSize = 20.sp
+                            fontSize = 20.sp,
+                            style = MaterialTheme.typography.headlineLarge
                         )
                         Spacer(modifier = modifier.size(10.dp))
                         val mDatePicker = datePickerDialog(
@@ -165,6 +174,7 @@ fun AddNewTaskScreen(
                             Icon(
                                 imageVector = Icons.Default.KeyboardArrowDown,
                                 contentDescription = null
+
                             )
                         }
                     }
@@ -187,16 +197,20 @@ fun AddNewTaskScreen(
                             title = addTaskUiState.taskTitle,
                             description = addTaskUiState.taskDescription,
                             dueDate = addTaskUiState.dueDate,
-                            course = addTaskUiState.taskCourse.uppercase()
+                            course = addTaskUiState.taskCourse.uppercase(),
+
                         )
                     )
 
                     onNavigateUp()
 
                 },
-                    modifier = Modifier
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF899C9C)),
+                            modifier = Modifier
                         .padding(bottom = 50.dp)
                         .fillMaxWidth(),
+
                 ) {
                     Text(text = stringResource(R.string.add_task))
                 }

@@ -35,6 +35,6 @@ data class TaskDetailsUiState(
         description = "",
         course= "",
         dueDate = Date(),
-        isFinished = false
+        isFinished = false,
     )
 )
