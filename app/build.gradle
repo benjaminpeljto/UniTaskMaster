@@ -76,4 +76,9 @@ dependencies {
 
     testImplementation "androidx.room:room-testing:$room_version"
     androidTestImplementation "androidx.room:room-testing:$room_version"
+
+    //Animated bottom bar
+    dependencies {
+        implementation("com.exyte:animated-navigation-bar:1.0.0")
+    }
 }

@@ -5,9 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import android.graphics.drawable.Icon
+import android.widget.Toast
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -16,8 +20,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ibu.edu.unitask.R
 import ibu.edu.unitask.data.models.Task
@@ -34,6 +40,7 @@ import java.text.SimpleDateFormat
 object HomeDestination : NavigationDestination {
     override val route: String = "home"
     override val titleRes: Int = R.string.unitaskmanager_home_top_bar
+    override val icon = Icons.Default.Home
 }
 
 
@@ -53,7 +60,10 @@ fun HomeScreen(
     val homeUiState = viewModel.state
 
     if (homeUiState.confirmDelete) {
+    if(homeUiState.confirmDelete){
+        val idDeleted = homeUiState.taskForDeletion.id
         viewModel.deleteTask(homeUiState.taskForDeletion)
+        Toast.makeText(LocalContext.current, "Task no. $idDeleted deleted successfully!", Toast.LENGTH_SHORT).show()
     }
 
     /*<<<<<<< HEAD ======= */
@@ -67,6 +77,41 @@ fun HomeScreen(
                     title = stringResource(HomeDestination.titleRes),
                     canNavigateBack = false
                 )
+Scaffold (
+    topBar = {
+             UniTaskTopAppBar(
+                 title = stringResource(HomeDestination.titleRes),
+                 canNavigateBack = false
+             )
+    },
+    floatingActionButton = {
+        FloatingActionButton(
+            onClick = navigateToAddTask,
+            modifier = modifier
+                .navigationBarsPadding()
+                .offset(y = (-54).dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }
+    },
+        ){innerPadding ->
+    if(homeUiState.tasks.isEmpty()){
+        AllTasksCompleted()
+    }
+    else {
+        CurrentTasks(
+            taskList =homeUiState.tasks,
+            padding = innerPadding,
+            onCheckedChange = { task, finished ->
+                viewModel.onTaskCheckedChange(task, finished)
+            },
+            deleteTask ={
+                viewModel.openDeleteDialog()
+                viewModel.assignTaskForDeletion(it)
             },
             floatingActionButton = {
                 FloatingActionButton(

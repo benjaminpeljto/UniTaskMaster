@@ -2,6 +2,7 @@ package ibu.edu.unitask.ui.add_task
 
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Button
@@ -25,10 +28,16 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,9 +54,10 @@ import ibu.edu.unitask.ui.utils.DateFormatter
 object AddNewTaskDestination : NavigationDestination {
     override val route = "add_task"
     override val titleRes = R.string.add_a_new_task
+    override val icon = Icons.Default.ArrowForward
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun AddNewTaskScreen(
     modifier: Modifier = Modifier,
@@ -57,6 +67,8 @@ fun AddNewTaskScreen(
 
     val viewModel = viewModel(modelClass = AddTaskViewModel::class.java)
     val addTaskUiState = viewModel.state
+    val controller = LocalSoftwareKeyboardController.current
+
     Scaffold (
             topBar = {
                 UniTaskTopAppBar(
@@ -93,7 +105,13 @@ fun AddNewTaskScreen(
                     value = addTaskUiState.taskTitle,
                     onValueChange = { text ->
                         viewModel.onTitleChange(text)
-                    }
+                    },
+                    modifier = modifier
+                        .onFocusChanged {
+                            if(!it.isFocused){
+                                controller?.hide()
+                            }
+                        }
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
