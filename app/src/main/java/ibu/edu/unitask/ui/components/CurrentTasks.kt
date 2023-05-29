@@ -38,11 +38,9 @@ fun CurrentTasks(
 
 //*****************  TaskList  *****************//
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = modifier.fillMaxSize()
-                .background(Color(0xFF121212))
+                .background(Color(0xFF121212)),
             verticalArrangement = Arrangement.Top,
-            modifier = modifier
         ) {
             items(taskList) { task ->
                 if(!task.isFinished) {

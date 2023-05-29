@@ -59,7 +59,6 @@ fun HomeScreen(
     val viewModel = viewModel(modelClass = HomeViewModel::class.java)
     val homeUiState = viewModel.state
 
-    if (homeUiState.confirmDelete) {
     if(homeUiState.confirmDelete){
         val idDeleted = homeUiState.taskForDeletion.id
         viewModel.deleteTask(homeUiState.taskForDeletion)
@@ -76,89 +75,21 @@ fun HomeScreen(
                 UniTaskTopAppBar(
                     title = stringResource(HomeDestination.titleRes),
                     canNavigateBack = false
-                )
-Scaffold (
-    topBar = {
-             UniTaskTopAppBar(
-                 title = stringResource(HomeDestination.titleRes),
-                 canNavigateBack = false
-             )
-    },
-    floatingActionButton = {
-        FloatingActionButton(
-            onClick = navigateToAddTask,
-            modifier = modifier
-                .navigationBarsPadding()
-                .offset(y = (-54).dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        }
-    },
-        ){innerPadding ->
-    if(homeUiState.tasks.isEmpty()){
-        AllTasksCompleted()
-    }
-    else {
-        CurrentTasks(
-            taskList =homeUiState.tasks,
-            padding = innerPadding,
-            onCheckedChange = { task, finished ->
-                viewModel.onTaskCheckedChange(task, finished)
-            },
-            deleteTask ={
-                viewModel.openDeleteDialog()
-                viewModel.assignTaskForDeletion(it)
-            },
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = navigateToAddTask,
-                    modifier = modifier.navigationBarsPadding(),
-                    containerColor = Color(0xFF320064)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-            },
-        ) { innerPadding ->
-            if (homeUiState.tasks.isEmpty()) {
-                AllTasksCompleted()
-            } else {
-                CurrentTasks(
-                    taskList = homeUiState.tasks,
-                    padding = innerPadding,
-                    onCheckedChange = { task, finished ->
-                        viewModel.onTaskCheckedChange(task, finished)
-                    },
-                    deleteTask = {
-                        viewModel.openDeleteDialog()
-                        viewModel.assignTaskForDeletion(it)
-                    },
-                    onEdit = {
-                        viewModel.assignTaskForEdit(it)
-                        viewModel.openEditDialog()
-                    },
-                    onRequestDetails = navigateToDetails
-                )
-                /* >>>>>>> origin/master */
-
+                )}
+        ){
                 Scaffold(
                     topBar = {
                         UniTaskTopAppBar(
-                            title = stringResource(R.string.unitaskmanager_home_top_bar),
+                            title = stringResource(HomeDestination.titleRes),
                             canNavigateBack = false
                         )
                     },
                     floatingActionButton = {
                         FloatingActionButton(
                             onClick = navigateToAddTask,
-                            modifier = modifier.navigationBarsPadding()
+                            modifier = modifier
+                                .navigationBarsPadding()
+                                .offset(y = (-54).dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
@@ -181,78 +112,112 @@ Scaffold (
                                 viewModel.openDeleteDialog()
                                 viewModel.assignTaskForDeletion(it)
                             },
-                            onEdit = {
-                                viewModel.assignTaskForEdit(it)
-                                viewModel.openEditDialog()
+                            floatingActionButton = {
+                                FloatingActionButton(
+                                    onClick = navigateToAddTask,
+                                    modifier = modifier.navigationBarsPadding(),
+                                    containerColor = Color(0xFF320064)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Add,
+                                        contentDescription = null,
+                                        tint = Color.White
+                                    )
+                                }
                             },
-                            onRequestDetails = navigateToDetails
+                        ) { innerPadding ->
+                            if (homeUiState.tasks.isEmpty()) {
+                                AllTasksCompleted()
+                            } else {
+                                CurrentTasks(
+                                    taskList = homeUiState.tasks,
+                                    padding = innerPadding,
+                                    onCheckedChange = { task, finished ->
+                                        viewModel.onTaskCheckedChange(task, finished)
+                                    },
+                                    deleteTask = {
+                                        viewModel.openDeleteDialog()
+                                        viewModel.assignTaskForDeletion(it)
+                                    },
+                                    onEdit = {
+                                        viewModel.assignTaskForEdit(it)
+                                        viewModel.openEditDialog()
+                                    },
+                                    onRequestDetails = navigateToDetails
+                                )
+                                /* >>>>>>> origin/master */
 
-                        )
+                                Scaffold(
+                                    topBar = {
+                                        UniTaskTopAppBar(
+                                            title = stringResource(R.string.unitaskmanager_home_top_bar),
+                                            canNavigateBack = false
+                                        )
+                                    },
+                                    floatingActionButton = {
+                                        FloatingActionButton(
+                                            onClick = navigateToAddTask,
+                                            modifier = modifier.navigationBarsPadding()
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Add,
+                                                contentDescription = null,
+                                                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                                            )
+                                        }
+                                    },
+                                ) { innerPadding ->
+                                    if (homeUiState.tasks.isEmpty()) {
+                                        AllTasksCompleted()
+                                    } else {
+                                        CurrentTasks(
+                                            taskList = homeUiState.tasks,
+                                            padding = innerPadding,
+                                            onCheckedChange = { task, finished ->
+                                                viewModel.onTaskCheckedChange(task, finished)
+                                            },
+                                            deleteTask = {
+                                                viewModel.openDeleteDialog()
+                                                viewModel.assignTaskForDeletion(it)
+                                            },
+                                            onEdit = {
+                                                viewModel.assignTaskForEdit(it)
+                                                viewModel.openEditDialog()
+                                            },
+                                            onRequestDetails = navigateToDetails
 
-                        if (homeUiState.openEditDialog) {
-                            EditTaskAlertDialog(
-                                onDismiss = {
-                                    viewModel.closeEditDialog()
-                                },
-                                onConfirm = {
-                                    viewModel.updateTask(it)
-                                    viewModel.closeEditDialog()
-                                },
-                                taskForEditId = homeUiState.taskForEditId
-                            )
-                        }
-                        if (homeUiState.openDeleteDialog) {
-                            DeleteTaskAlertDialog(
-                                onDelete = {
-                                    viewModel.confirmDeletion()
-                                    viewModel.closeDeleteDialog()
-                                },
-                                onDismissRequest = { viewModel.closeDeleteDialog() }
-                            )
+                                        )
+
+                                        if (homeUiState.openEditDialog) {
+                                            EditTaskAlertDialog(
+                                                onDismiss = {
+                                                    viewModel.closeEditDialog()
+                                                },
+                                                onConfirm = {
+                                                    viewModel.updateTask(it)
+                                                    viewModel.closeEditDialog()
+                                                },
+                                                taskForEditId = homeUiState.taskForEditId
+                                            )
+                                        }
+                                        if (homeUiState.openDeleteDialog) {
+                                            DeleteTaskAlertDialog(
+                                                onDelete = {
+                                                    viewModel.confirmDeletion()
+                                                    viewModel.closeDeleteDialog()
+                                                },
+                                                onDismissRequest = { viewModel.closeDeleteDialog() }
+                                            )
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-            }
+
         }
     }
-}
-
-
-
-
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    val emptlyList = emptyList<Task>()
-    val tasksList = listOf(
-        Task(
-            id = 1,
-            title = "Task 1",
-            description = "Description 1",
-            course = "Course 1",
-            dueDate = SimpleDateFormat("dd.MM.yyyy").parse("22.02.2023")!!,
-            isFinished = false
-        ),
-        Task(
-            id = 2,
-            title = "Task 2",
-            description = "Description 2",
-            course = "Course 2",
-            dueDate = SimpleDateFormat("dd.MM.yyyy").parse("22.02.2023")!!,
-            isFinished = false
-        ),
-        Task(
-            id = 3,
-            title = "Task 3",
-            description = "Description 3",
-            course = "Course 3",
-            dueDate = SimpleDateFormat("dd.MM.yyyy").parse("22.02.2023")!!,
-            isFinished = false
-        )
-    )
-
-
 }
 
 

@@ -25,7 +25,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ibu.edu.unitask.data.models.Task
@@ -49,7 +48,7 @@ fun TaskCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 10.dp, bottom = 10.dp, start = 20.dp, end = 20.dp)
-            //.shadow(elevation = 10.dp, shape = RoundedCornerShape(20.dp), clip = true)
+        //.shadow(elevation = 10.dp, shape = RoundedCornerShape(20.dp), clip = true)
 
 
     ) {
@@ -60,7 +59,7 @@ fun TaskCard(
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color(0xFF282828)
-             ),
+            ),
             modifier = modifier
                 .fillMaxWidth()
                 .shadow(
@@ -68,146 +67,126 @@ fun TaskCard(
                     shape = RoundedCornerShape(20.dp),
                     clip = true
                 )
-    var isVisible by remember { mutableStateOf(true) }
-
-    AnimatedVisibility(
-        visible = isVisible,
-        enter = slideInHorizontally(
-            initialOffsetX = { fullWidth -> fullWidth },
-            animationSpec = tween(durationMillis = 500)
-        ),
-        exit = slideOutHorizontally(
-            targetOffsetX = { fullWidth -> -fullWidth },
-            animationSpec = tween(durationMillis = 500)
-        )
-    ) {
-        Surface(
-            shadowElevation = 4.dp,
-            shape = RoundedCornerShape(20.dp),
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp, start = 20.dp, end = 20.dp)
-                .shadow(elevation = 4.dp, shape = RoundedCornerShape(20.dp))
-
-
         ) {
+            val isVisible by remember { mutableStateOf(true) }
 
-            Card(
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFFD2E9E9)
+            AnimatedVisibility(
+                visible = isVisible,
+                enter = slideInHorizontally(
+                    initialOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(durationMillis = 500)
                 ),
-                modifier = modifier.fillMaxWidth()
+                exit = slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> -fullWidth },
+                    animationSpec = tween(durationMillis = 500)
+                )
             ) {
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
+                Surface(
+                    shadowElevation = 4.dp,
+                    shape = RoundedCornerShape(20.dp),
+                    modifier = modifier
                         .fillMaxWidth()
-                        .padding(5.dp)
+                        .padding(top = 10.dp, start = 20.dp, end = 20.dp)
+                        .shadow(elevation = 4.dp, shape = RoundedCornerShape(20.dp))
+
 
                 ) {
-                    Checkbox(
-                        checked = isChecked,
-                        colors = CheckboxDefaults.colors(
-                            uncheckedColor = Color(0xFFFFFFF7)
+
+                    Card(
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color(0xFFD2E9E9)
                         ),
-                        onCheckedChange = {
-                            onCheckedChange(task, it)
+                        modifier = modifier.fillMaxWidth()
+                    ) {
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(5.dp)
+
+                        ) {
+                            Checkbox(
+                                checked = isChecked,
+                                colors = CheckboxDefaults.colors(
+                                    uncheckedColor = Color(0xFFFFFFF7)
+                                ),
+                                onCheckedChange = {
+                                    onCheckedChange(task, it)
+                                }
+                            )
+
+                            Column(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .clickable { onRequestDetails.invoke(task.id) },
+                                horizontalAlignment = Alignment.Start,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+
+                                Text(
+                                    text = task.title,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFFFFFFF7)
+                                )
+
+                            }
+                            Column(
+                                modifier = modifier
+                                    .padding(end = 5.dp),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+
+                            ) {
+                                Text(
+                                    text = "Due ",
+                                    fontSize = 15.sp,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    textAlign = TextAlign.Left,
+                                    modifier = modifier.padding(end = 10.dp),
+                                    color = Color(0xFFFFFFF7)
+
+                                )
+                                Text(
+                                    text = DateFormatter(task.dueDate),
+                                    color = DateTester(task.dueDate, Calendar.getInstance().time),
+                                    fontSize = 15.sp,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = modifier.padding(end = 10.dp)
+                                )
+
+                            }
+                            Row() {
+
+
+                                Icon(
+                                    imageVector = Icons.Filled.Edit,
+                                    contentDescription = "Edit task button",
+
+                                    modifier = Modifier
+                                        .clickable { onEdit.invoke(task.id) }
+                                        .padding(end = 10.dp),
+                                    tint = Color(0xFFFFFFF7)
+                                )
+
+                                Icon(
+                                    imageVector = Icons.Filled.Delete,
+                                    contentDescription = "Delete task button",
+                                    modifier = Modifier
+                                        .clickable { onDelete.invoke(task) }
+                                        .padding(end = 10.dp),
+                                    tint = Color(0xFFD11A2A)
+                                )
+
+                            }
+
                         }
-                    )
-
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .clickable { onRequestDetails.invoke(task.id) },
-                        horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-
-                        Text(
-                            text = task.title,
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFFFFFFF7)
-                        )
-
                     }
-                    Column(
-                        modifier = modifier
-                            .padding(end = 5.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-
-                    ) {
-                        Text(
-                            text = "Due ",
-                            fontSize = 15.sp,
-                            style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Left,
-                            modifier = modifier.padding(end = 10.dp),
-                            color = Color(0xFFFFFFF7)
-
-                        )
-                        Text(
-                            text = DateFormatter(task.dueDate),
-                            color = DateTester(task.dueDate, Calendar.getInstance().time),
-                            fontSize = 15.sp,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = modifier.padding(end = 10.dp)
-                        )
-
-                    }
-                    Row() {
-
-
-                        Icon(
-                            imageVector = Icons.Filled.Edit,
-                            contentDescription = "Edit task button",
-
-                            modifier = Modifier
-                                .clickable { onEdit.invoke(task.id) }
-                                .padding(end = 10.dp),
-                            tint = Color(0xFFFFFFF7)
-                        )
-
-                        Icon(
-                            imageVector = Icons.Filled.Delete,
-                            contentDescription = "Delete task button",
-                            modifier = Modifier
-                                .clickable { onDelete.invoke(task) }
-                                .padding(end = 10.dp),
-                            tint = Color(0xFFD11A2A)
-                        )
-
-                    }
-
                 }
             }
         }
     }
-}
-
-
-@Preview
-@Composable
-fun TaskCardPreview() {
-    val currentDate = Calendar.getInstance().time
-    val task = Task(
-        title = "Sample Task",
-        description = "This is a sample task description",
-        dueDate = currentDate,
-        course = "Maths"
-    )
-
-    TaskCard(
-        task = task,
-        onCheckedChange = { _, _ -> /* Handle checked change */ },
-        onDelete = { /* Handle delete task */ },
-        isChecked = false,
-        modifier = Modifier,
-        onEdit = {},
-        onRequestDetails = {}
-    )
 }
