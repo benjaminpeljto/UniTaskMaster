@@ -17,29 +17,46 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import ibu.edu.unitask.R
 import ibu.edu.unitask.data.models.Task
+import ibu.edu.unitask.ui.navigation.NavigationDestination
 import ibu.edu.unitask.ui.navigation.UniTaskTopAppBar
 import ibu.edu.unitask.ui.utils.DateFormatter
 import java.util.Calendar
 
+object TaskDetailsDestination : NavigationDestination{
+    override val route = "task_details/{id}"
+    override val titleRes = R.string.task_no
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskDetailsScreen(
-    task: Task,
+    taskId: Int,
     modifier: Modifier = Modifier,
     canNavigateBack: Boolean = true,
     onNavigateBack: () -> Unit
 ) {
+    val viewModel = viewModel(modelClass = TaskDetailsViewModel::class.java)
+    val taskDetailsUiState = viewModel.state
+
+    LaunchedEffect(key1 = true) {
+        viewModel.getTask(taskId)
+    }
+
     Scaffold(
         topBar = {
             UniTaskTopAppBar(
-                title = "Task no. " + task.id.toString(),
+                title = stringResource(TaskDetailsDestination.titleRes) + taskDetailsUiState.task.id.toString(),
                 canNavigateBack = canNavigateBack,
                 navigateUp = onNavigateBack
             )
@@ -64,8 +81,8 @@ fun TaskDetailsScreen(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val status: String = if(task.isFinished) "Done" else "Not done"
-                Checkbox(checked = task.isFinished, onCheckedChange = {})
+                val status: String = if(taskDetailsUiState.task.isFinished) "Done" else "Not done"
+                Checkbox(checked = taskDetailsUiState.task.isFinished, onCheckedChange = {})
                 Text(text = "Status: ")
                 Text(text = status, fontWeight = FontWeight.Bold)
             }
@@ -75,7 +92,7 @@ fun TaskDetailsScreen(
             ) {
                 Icon(imageVector = Icons.Filled.Info, contentDescription = null)
                 Text(text = "Title: ")
-                TextField(value = task.title, onValueChange = {}, readOnly = true)
+                TextField(value = taskDetailsUiState.task.title, onValueChange = {}, readOnly = true)
             }
 
             Row(
@@ -83,7 +100,7 @@ fun TaskDetailsScreen(
             ) {
                 Icon(imageVector = Icons.Filled.Info, contentDescription = null)
                 Text(text = "Description: ")
-                TextField(value = task.description, onValueChange = {}, readOnly = true)
+                TextField(value = taskDetailsUiState.task.description, onValueChange = {}, readOnly = true)
             }
 
             Row(
@@ -91,7 +108,7 @@ fun TaskDetailsScreen(
             ) {
                 Icon(imageVector = Icons.Filled.Star, contentDescription = null)
                 Text(text = "Course: ")
-                TextField(value = task.course, onValueChange = {}, readOnly = true)
+                TextField(value = taskDetailsUiState.task.course, onValueChange = {}, readOnly = true)
             }
 
             Row(
@@ -99,7 +116,7 @@ fun TaskDetailsScreen(
             ) {
                 Icon(imageVector = Icons.Filled.DateRange, contentDescription = null)
                 Text(text = "Due date: ")
-                TextField(value = DateFormatter(task.dueDate), onValueChange = {}, readOnly = true)
+                TextField(value = DateFormatter(taskDetailsUiState.task.dueDate), onValueChange = {}, readOnly = true)
             }
 
 
@@ -120,6 +137,5 @@ fun TaskDetailsPreview() {
         course = "Maths",
         isFinished = true
     )
-    TaskDetailsScreen(task = task, onNavigateBack = {})
 }
 

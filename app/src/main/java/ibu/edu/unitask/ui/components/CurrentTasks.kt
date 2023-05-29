@@ -20,6 +20,7 @@ fun CurrentTasks(
     onCheckedChange:(Task, Boolean) -> Unit,
     deleteTask:(Task) -> Unit,
     onEdit: (id: Int) -> Unit,
+    onRequestDetails: (Int) -> Unit
 ) {
     Column(
     modifier = modifier
@@ -43,7 +44,8 @@ fun CurrentTasks(
                     onCheckedChange = onCheckedChange,
                     onDelete = deleteTask,
                     modifier = modifier,
-                    onEdit = onEdit
+                    onEdit = onEdit,
+                    onRequestDetails = onRequestDetails
                 )
             }
 

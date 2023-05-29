@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat
 
 object HomeDestination : NavigationDestination {
     override val route: String = "home"
-    override val titleRes: Int = R.string.unitask_home
+    override val titleRes: Int = R.string.unitaskmanager_home_top_bar
 }
 
 
@@ -43,7 +43,8 @@ object HomeDestination : NavigationDestination {
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    navigateToAddTask: () -> Unit
+    navigateToAddTask: () -> Unit,
+    navigateToDetails: (Int) -> Unit,
 ) {
 
     val viewModel = viewModel(modelClass = HomeViewModel::class.java)
@@ -53,6 +54,49 @@ fun HomeScreen(
         viewModel.deleteTask(homeUiState.taskForDeletion)
     }
 
+<<<<<<< HEAD
+=======
+Scaffold (
+    topBar = {
+             UniTaskTopAppBar(
+                 title = stringResource(HomeDestination.titleRes),
+                 canNavigateBack = false
+             )
+    },
+    floatingActionButton = {
+        FloatingActionButton(
+            onClick = navigateToAddTask,
+            modifier = modifier.navigationBarsPadding()
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }
+    },
+        ){innerPadding ->
+    if(homeUiState.tasks.isEmpty()){
+        AllTasksCompleted()
+    }
+    else {
+        CurrentTasks(
+            taskList =homeUiState.tasks,
+            padding = innerPadding,
+            onCheckedChange = { task, finished ->
+                viewModel.onTaskCheckedChange(task, finished)
+            },
+            deleteTask ={
+                viewModel.openDeleteDialog()
+                viewModel.assignTaskForDeletion(it)
+            },
+            onEdit ={
+                viewModel.assignTaskForEdit(it)
+                viewModel.openEditDialog()
+            },
+            onRequestDetails = navigateToDetails
+        )
+>>>>>>> origin/master
 
         Scaffold(
             topBar = {
