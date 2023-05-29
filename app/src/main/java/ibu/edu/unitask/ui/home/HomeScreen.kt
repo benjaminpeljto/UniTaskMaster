@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat
 
 object HomeDestination : NavigationDestination {
     override val route: String = "home"
-    override val titleRes: Int = R.string.unitask_home
+    override val titleRes: Int = R.string.unitaskmanager_home_top_bar
 }
 
 
@@ -40,7 +40,8 @@ object HomeDestination : NavigationDestination {
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    navigateToAddTask: () -> Unit
+    navigateToAddTask: () -> Unit,
+    navigateToDetails: (Int) -> Unit,
 ) {
 
     val viewModel = viewModel(modelClass = HomeViewModel::class.java)
@@ -53,7 +54,7 @@ fun HomeScreen(
 Scaffold (
     topBar = {
              UniTaskTopAppBar(
-                 title = stringResource(R.string.unitaskmanager_home_top_bar),
+                 title = stringResource(HomeDestination.titleRes),
                  canNavigateBack = false
              )
     },
@@ -87,7 +88,8 @@ Scaffold (
             onEdit ={
                 viewModel.assignTaskForEdit(it)
                 viewModel.openEditDialog()
-            }
+            },
+            onRequestDetails = navigateToDetails
         )
 
         if(homeUiState.openEditDialog){

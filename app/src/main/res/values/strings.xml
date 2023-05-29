@@ -15,4 +15,5 @@
     <string name="close_button">Close</string>
     <string name="delete_task_dialog_title">Delete task</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="task_no">"Task no. "</string>
 </resources>

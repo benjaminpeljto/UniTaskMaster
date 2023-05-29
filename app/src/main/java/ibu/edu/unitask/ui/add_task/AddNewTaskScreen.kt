@@ -56,7 +56,7 @@ fun AddNewTaskScreen(
     Scaffold (
             topBar = {
                 UniTaskTopAppBar(
-                    title = stringResource(R.string.add_a_new_task_top_bar_text),
+                    title = stringResource(AddNewTaskDestination.titleRes),
                     canNavigateBack = canNavigateBack,
                     navigateUp = onNavigateUp
                 )

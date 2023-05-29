@@ -1,6 +1,5 @@
 package ibu.edu.unitask.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,7 +17,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -40,6 +38,7 @@ fun TaskCard(
     onEdit: (Int) -> Unit,
     isChecked: Boolean,
     modifier: Modifier = Modifier,
+    onRequestDetails: (Int) -> Unit
 ) {
     Surface(
         shadowElevation = 4.dp,
@@ -76,27 +75,12 @@ fun TaskCard(
                     )
 
                     Column(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {onRequestDetails.invoke(task.id)},
                         horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        val textDecoration =
-                            if (isChecked) {
-                                TextDecoration.LineThrough
-                            } else {
-                                TextDecoration.None
-                            }
-
-                        val textStyleTitle = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
-                            textDecoration = textDecoration
-                        )
-
-                        val textStyleDescription = TextStyle(
-                            fontWeight = FontWeight.Light,
-                            fontSize = 12.sp
-                        )
 
                         Text(
                             text = task.title,
@@ -174,6 +158,7 @@ fun TaskCardPreview() {
         onDelete = { /* Handle delete task */ },
         isChecked = false,
         modifier = Modifier,
-        onEdit = {}
+        onEdit = {},
+        onRequestDetails = {}
     )
 }
