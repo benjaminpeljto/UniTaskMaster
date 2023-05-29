@@ -25,6 +25,7 @@ fun CurrentTasks(
     Column(
     modifier = modifier
     .padding(padding)
+        .padding(bottom = 67.dp)
     ) {
 
 //*****************  Header  *****************//
@@ -34,19 +35,21 @@ fun CurrentTasks(
 
 //*****************  TaskList  *****************//
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.Top,
             modifier = modifier
         ) {
             items(taskList) { task ->
-                TaskCard(
-                    task = task,
-                    isChecked = task.isFinished,
-                    onCheckedChange = onCheckedChange,
-                    onDelete = deleteTask,
-                    modifier = modifier,
-                    onEdit = onEdit,
-                    onRequestDetails = onRequestDetails
-                )
+                if(!task.isFinished) {
+                    TaskCard(
+                        task = task,
+                        isChecked = task.isFinished,
+                        onCheckedChange = onCheckedChange,
+                        onDelete = deleteTask,
+                        modifier = modifier,
+                        onEdit = onEdit,
+                        onRequestDetails = onRequestDetails
+                    )
+                }
             }
 
         }

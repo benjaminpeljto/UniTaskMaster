@@ -1,5 +1,9 @@
 package ibu.edu.unitask.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,10 +22,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,24 +42,37 @@ fun TaskCard(
     modifier: Modifier = Modifier,
     onRequestDetails: (Int) -> Unit
 ) {
-    Surface(
-        shadowElevation = 4.dp,
-        shape = RoundedCornerShape(20.dp),
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp, bottom = 10.dp, start = 20.dp, end = 20.dp)
-            .shadow(elevation = 4.dp, shape = RoundedCornerShape(20.dp))
+    var isVisible by remember { mutableStateOf(true) }
 
-
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = slideInHorizontally(
+            initialOffsetX = { fullWidth -> fullWidth },
+            animationSpec = tween(durationMillis = 500)
+        ),
+        exit = slideOutHorizontally(
+            targetOffsetX = { fullWidth -> -fullWidth },
+            animationSpec = tween(durationMillis = 500)
+        )
     ) {
-
-        Card(
+        Surface(
+            shadowElevation = 4.dp,
             shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFD2E9E9)
-             ),
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp, start = 20.dp, end = 20.dp)
+                .shadow(elevation = 4.dp, shape = RoundedCornerShape(20.dp))
+
+
         ) {
+
+            Card(
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFFD2E9E9)
+                ),
+                modifier = modifier.fillMaxWidth()
+            ) {
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -77,7 +92,7 @@ fun TaskCard(
                     Column(
                         modifier = Modifier
                             .weight(1f)
-                            .clickable {onRequestDetails.invoke(task.id)},
+                            .clickable { onRequestDetails.invoke(task.id) },
                         horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.Center
                     ) {
@@ -138,6 +153,7 @@ fun TaskCard(
             }
         }
     }
+}
 
 
 
