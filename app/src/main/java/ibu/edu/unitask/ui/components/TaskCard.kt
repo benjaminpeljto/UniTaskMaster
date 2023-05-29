@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -46,17 +47,25 @@ fun TaskCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 10.dp, bottom = 10.dp, start = 20.dp, end = 20.dp)
-            .shadow(elevation = 4.dp, shape = RoundedCornerShape(20.dp))
+            //.shadow(elevation = 10.dp, shape = RoundedCornerShape(20.dp), clip = true)
 
 
     ) {
 
+
         Card(
+
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFE3F4F4)
+                containerColor = Color(0xFF282828)
              ),
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier
+                .fillMaxWidth()
+                .shadow(
+                    elevation = 20.dp,
+                    shape = RoundedCornerShape(20.dp),
+                    clip = true
+                )
         ) {
 
                 Row(
@@ -69,6 +78,9 @@ fun TaskCard(
                 ) {
                     Checkbox(
                         checked = isChecked,
+                        colors = CheckboxDefaults.colors(
+                            uncheckedColor = Color(0xFFFFFFF7)
+                        ),
                         onCheckedChange = {
                             onCheckedChange(task, it)
                         }
@@ -77,7 +89,7 @@ fun TaskCard(
                     Column(
                         modifier = Modifier
                             .weight(1f)
-                            .clickable {onRequestDetails.invoke(task.id)},
+                            .clickable { onRequestDetails.invoke(task.id) },
                         horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.Center
                     ) {
@@ -85,7 +97,8 @@ fun TaskCard(
                         Text(
                             text = task.title,
                             style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFFFFFF7)
                         )
 
                     }
@@ -101,7 +114,8 @@ fun TaskCard(
                             fontSize = 15.sp,
                             style = MaterialTheme.typography.bodyMedium,
                             textAlign = TextAlign.Left,
-                            modifier = modifier.padding(end = 10.dp)
+                            modifier = modifier.padding(end = 10.dp),
+                            color = Color(0xFFFFFFF7)
 
                         )
                         Text(
@@ -120,14 +134,17 @@ fun TaskCard(
                             imageVector = Icons.Filled.Edit,
                             contentDescription = "Edit task button",
 
-                            modifier = Modifier.clickable { onEdit.invoke(task.id) }
-                                .padding(end = 10.dp)
+                            modifier = Modifier
+                                .clickable { onEdit.invoke(task.id) }
+                                .padding(end = 10.dp),
+                            tint = Color(0xFFFFFFF7)
                         )
 
                         Icon(
                             imageVector = Icons.Filled.Delete,
                             contentDescription = "Delete task button",
-                            modifier = Modifier.clickable { onDelete.invoke(task) }
+                            modifier = Modifier
+                                .clickable { onDelete.invoke(task) }
                                 .padding(end = 10.dp),
                             tint = Color(0xFFD11A2A)
                         )
@@ -138,7 +155,6 @@ fun TaskCard(
             }
         }
     }
-
 
 
 @Preview

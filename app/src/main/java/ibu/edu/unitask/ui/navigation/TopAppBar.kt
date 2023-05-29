@@ -25,9 +25,9 @@ fun UniTaskTopAppBar(
 ) {
     if (canNavigateBack) {
         TopAppBar(
-            title = { Text(title) },
+            title = { Text(title,  color = Color(0xFFFFFFF7)) },
             modifier = modifier ,
-            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFFC4DFDF)),
+            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF320064)),
             navigationIcon = {
                 IconButton(onClick = navigateUp) {
                     Icon(
@@ -38,7 +38,7 @@ fun UniTaskTopAppBar(
             }
         )
     } else {
-        TopAppBar(title = { Text(title) }, modifier = modifier,
-            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFFC4DFDF) ))
+        TopAppBar(title = { Text(title, color = Color(0xFFFFFFF7)) }, modifier = modifier,
+            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF320064) ))
     }
 }

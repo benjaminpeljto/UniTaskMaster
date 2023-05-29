@@ -59,7 +59,7 @@ fun HomeScreen(
     /*<<<<<<< HEAD ======= */
     Box(
         modifier = modifier.fillMaxSize()
-            .background(Color(0xFFF8F6F4)) // Use Color(0xFFF8F6F4) for #F8F6F4
+            .background(Color.Black)
     ) {
         Scaffold(
             topBar = {
@@ -72,7 +72,7 @@ fun HomeScreen(
                 FloatingActionButton(
                     onClick = navigateToAddTask,
                     modifier = modifier.navigationBarsPadding(),
-                    containerColor = Color(0xFF899C9C)
+                    containerColor = Color(0xFF320064)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,

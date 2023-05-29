@@ -37,22 +37,24 @@ fun Header(day: String) {
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFFF8F6F4))
+            .background(Color(0xFF121212))
             .padding(start = 20.dp, top = 20.dp, bottom = 15.dp)
     ){
 
         Text(text = day,
             //modifier = Modifier.padding(5.dp,5.dp),
+            color = Color(0xFFFFFFF7),
             fontWeight = FontWeight.Bold,
             fontSize = 35.sp,
             style= MaterialTheme.typography.bodyLarge
+
         )
         Text(
             text = formattedDate,
             Modifier.padding(5.dp,0.dp),
             fontWeight = FontWeight.Light,
             style = MaterialTheme.typography.bodySmall,
-            color = Color(R.color.date_color)
+            color = Color(0xFFFFFFF7)
         )
     }
 

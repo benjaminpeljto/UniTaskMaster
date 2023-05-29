@@ -39,7 +39,7 @@ fun CurrentTasks(
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = modifier.fillMaxSize()
-                .background(Color(0xFFF8F6F4))
+                .background(Color(0xFF121212))
         ) {
             items(taskList) { task ->
                 TaskCard(
