@@ -27,7 +27,7 @@ fun UniTaskTopAppBar(
         TopAppBar(
             title = { Text(title) },
             modifier = modifier ,
-            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFFC4DFDF) ),
+            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFFC4DFDF)),
             navigationIcon = {
                 IconButton(onClick = navigateUp) {
                     Icon(

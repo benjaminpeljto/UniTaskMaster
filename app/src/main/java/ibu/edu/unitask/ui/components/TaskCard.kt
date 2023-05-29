@@ -129,7 +129,7 @@ fun TaskCard(
                             contentDescription = "Delete task button",
                             modifier = Modifier.clickable { onDelete.invoke(task) }
                                 .padding(end = 10.dp),
-                            tint = Color.Red
+                            tint = Color(0xFFD11A2A)
                         )
 
                     }

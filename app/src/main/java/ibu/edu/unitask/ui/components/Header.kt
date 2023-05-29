@@ -1,5 +1,6 @@
 package ibu.edu.unitask.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -36,6 +37,7 @@ fun Header(day: String) {
     Column (
         modifier = Modifier
             .fillMaxWidth()
+            .background(Color(0xFFF8F6F4))
             .padding(start = 20.dp, top = 20.dp, bottom = 15.dp)
     ){
 
