@@ -1,6 +1,8 @@
 package ibu.edu.unitask.ui.home
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -11,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -50,71 +53,71 @@ fun HomeScreen(
         viewModel.deleteTask(homeUiState.taskForDeletion)
     }
 
-Scaffold (
-    topBar = {
-             UniTaskTopAppBar(
-                 title = stringResource(R.string.unitaskmanager_home_top_bar),
-                 canNavigateBack = false
-             )
-    },
-    floatingActionButton = {
-        FloatingActionButton(
-            onClick = navigateToAddTask,
-            modifier = modifier.navigationBarsPadding()
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        }
-    },
-        ){innerPadding ->
-    if(homeUiState.tasks.isEmpty()){
-        AllTasksCompleted()
-    }
-    else {
-        CurrentTasks(
-            taskList =homeUiState.tasks,
-            padding = innerPadding,
-            onCheckedChange = { task, finished ->
-                viewModel.onTaskCheckedChange(task, finished)
-            },
-            deleteTask ={
-                viewModel.openDeleteDialog()
-                viewModel.assignTaskForDeletion(it)
-            },
-            onEdit ={
-                viewModel.assignTaskForEdit(it)
-                viewModel.openEditDialog()
-            }
-        )
 
-        if(homeUiState.openEditDialog){
-            EditTaskAlertDialog(
-                onDismiss = {
+        Scaffold(
+            topBar = {
+                UniTaskTopAppBar(
+                    title = stringResource(R.string.unitaskmanager_home_top_bar),
+                    canNavigateBack = false
+                )
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = navigateToAddTask,
+                    modifier = modifier.navigationBarsPadding()
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            },
+        ) { innerPadding ->
+            if (homeUiState.tasks.isEmpty()) {
+                AllTasksCompleted()
+            } else {
+                CurrentTasks(
+                    taskList = homeUiState.tasks,
+                    padding = innerPadding,
+                    onCheckedChange = { task, finished ->
+                        viewModel.onTaskCheckedChange(task, finished)
+                    },
+                    deleteTask = {
+                        viewModel.openDeleteDialog()
+                        viewModel.assignTaskForDeletion(it)
+                    },
+                    onEdit = {
+                        viewModel.assignTaskForEdit(it)
+                        viewModel.openEditDialog()
+                    }
+                )
+
+                if (homeUiState.openEditDialog) {
+                    EditTaskAlertDialog(
+                        onDismiss = {
                             viewModel.closeEditDialog()
-                },
-                onConfirm ={
-                    viewModel.updateTask(it)
-                    viewModel.closeEditDialog()
-                },
-                taskForEditId = homeUiState.taskForEditId
-            )
-        }
-        if(homeUiState.openDeleteDialog){
-            DeleteTaskAlertDialog(
-                onDelete = {
-                    viewModel.confirmDeletion()
-                    viewModel.closeDeleteDialog()
-                },
-                onDismissRequest = {viewModel.closeDeleteDialog()}
-            )
+                        },
+                        onConfirm = {
+                            viewModel.updateTask(it)
+                            viewModel.closeEditDialog()
+                        },
+                        taskForEditId = homeUiState.taskForEditId
+                    )
+                }
+                if (homeUiState.openDeleteDialog) {
+                    DeleteTaskAlertDialog(
+                        onDelete = {
+                            viewModel.confirmDeletion()
+                            viewModel.closeDeleteDialog()
+                        },
+                        onDismissRequest = { viewModel.closeDeleteDialog() }
+                    )
+                }
+            }
         }
     }
-}
 
-}
 
 
 @Preview

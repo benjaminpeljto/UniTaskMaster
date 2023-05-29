@@ -55,7 +55,7 @@ fun TaskCard(
         Card(
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFD2E9E9)
+                containerColor = Color(0xFFE3F4F4)
              ),
             modifier = modifier.fillMaxWidth()
         ) {
