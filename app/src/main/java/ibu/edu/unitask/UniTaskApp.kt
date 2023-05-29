@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.exyte.animatednavbar.AnimatedNavigationBar
-import com.exyte.animatednavbar.animation.balltrajectory.Parabolic
+import com.exyte.animatednavbar.animation.balltrajectory.Straight
 import com.exyte.animatednavbar.animation.indendshape.Height
 import com.exyte.animatednavbar.animation.indendshape.shapeCornerRadius
 import com.exyte.animatednavbar.utils.noRippleClickable
@@ -57,7 +57,7 @@ fun UniTaskApp(
                     .padding(bottom = 6.dp, start = 6.dp, end = 6.dp),
                 selectedIndex = selectedIndex,
                 cornerRadius = shapeCornerRadius(cornerRadius = 34.dp),
-                ballAnimation = Parabolic(tween(300)),
+                ballAnimation = Straight(tween(300)),
                 indentAnimation = Height(tween(300)),
                 barColor = MaterialTheme.colorScheme.primary,
                 ballColor = MaterialTheme.colorScheme.primary,
