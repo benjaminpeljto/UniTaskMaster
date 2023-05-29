@@ -1,6 +1,7 @@
 package ibu.edu.unitask.ui.home
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -11,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -48,7 +50,9 @@ fun HomeScreen(
     val homeUiState = viewModel.state
 
     if(homeUiState.confirmDelete){
+        val idDeleted = homeUiState.taskForDeletion.id
         viewModel.deleteTask(homeUiState.taskForDeletion)
+        Toast.makeText(LocalContext.current, "Task no. $idDeleted deleted successfully!", Toast.LENGTH_SHORT).show()
     }
 
 Scaffold (
