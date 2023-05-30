@@ -191,7 +191,8 @@ fun AddNewTaskScreen(
                 verticalArrangement = Arrangement.Bottom
             ){
 
-                Button(onClick = {
+                Button(
+                    onClick = {
                     viewModel.addTask(
                         Task(
                             title = addTaskUiState.taskTitle,
@@ -206,7 +207,7 @@ fun AddNewTaskScreen(
 
                 },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF899C9C)),
+                        containerColor = Color(0xFF320064)),
                             modifier = Modifier
                         .padding(bottom = 50.dp)
                         .fillMaxWidth(),

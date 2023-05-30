@@ -1,5 +1,6 @@
 package ibu.edu.unitask.ui.edit_task
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,15 +12,19 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -47,15 +52,18 @@ fun EditTaskAlertDialog(
     }
 
     AlertDialog(
+        containerColor = Color(0xFFD9D0DE),
         onDismissRequest = { onDismiss() },
         title = {
-            Text(text = "Edit Task")
+            Text(text = "Edit Task" ,style= MaterialTheme.typography.bodyLarge
+            )
         },
         text = {
             Column {
+
                 OutlinedTextField(
                     label = {
-                        Text(text = stringResource(R.string.task_title))
+                        Text(text = stringResource(R.string.task_title) ,style= MaterialTheme.typography.headlineMedium)
                     },
                     value = editTaskUiState.taskTitle,
                     onValueChange = {text ->
@@ -66,7 +74,7 @@ fun EditTaskAlertDialog(
 
                 OutlinedTextField(
                     label = {
-                        Text(text = stringResource(R.string.task_description))
+                        Text(text = stringResource(R.string.task_description),style= MaterialTheme.typography.headlineMedium)
                     },
                     value = editTaskUiState.taskDescription,
                     onValueChange = {text ->
@@ -77,7 +85,7 @@ fun EditTaskAlertDialog(
 
                 OutlinedTextField(
                     label = {
-                        Text(text = stringResource(R.string.task_course))
+                        Text(text = stringResource(R.string.task_course),style= MaterialTheme.typography.headlineMedium)
                     },
                     value = editTaskUiState.taskCourse,
                     onValueChange = {text ->
@@ -99,8 +107,10 @@ fun EditTaskAlertDialog(
                         )
                         Spacer(modifier = modifier.size(10.dp))
                         Text(
+                            style= MaterialTheme.typography.headlineMedium,
                             text = DateFormatter(editTaskUiState.dueDate),
                             fontSize = 20.sp
+
                         )
                         Spacer(modifier = modifier.size(10.dp))
                         val mDatePicker = datePickerDialog(
@@ -124,6 +134,7 @@ fun EditTaskAlertDialog(
 
         confirmButton = {
             Button(
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF320064)),
                 onClick = {
                     onConfirm.invoke(
                         Task(
@@ -136,14 +147,15 @@ fun EditTaskAlertDialog(
                         )
                     )
                 }) {
-                Text(text = "Edit task")
+                Text(text = "Edit task",style= MaterialTheme.typography.headlineMedium)
             }
         },
         dismissButton = {
             Button(
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF320064)),
                 onClick = { onDismiss() }
             ) {
-                Text(text = "Cancel")
+                Text(text = "Cancel",style= MaterialTheme.typography.headlineMedium)
             }
         }
     )

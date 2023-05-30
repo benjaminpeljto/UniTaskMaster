@@ -74,12 +74,13 @@ fun HomeScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = navigateToAddTask,
+                    containerColor = Color(0xFF320064),
                     modifier = modifier.navigationBarsPadding().offset(y = (-54).dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                        tint = Color(0xFFFFFFF7)
                     )
                 }
             }

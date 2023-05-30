@@ -2,6 +2,7 @@ package ibu.edu.unitask
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -18,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -59,12 +61,12 @@ fun UniTaskApp(
                 cornerRadius = shapeCornerRadius(cornerRadius = 34.dp),
                 ballAnimation = Straight(tween(300)),
                 indentAnimation = Height(tween(300)),
-                barColor = MaterialTheme.colorScheme.primary,
-                ballColor = MaterialTheme.colorScheme.primary,
+                barColor = Color(0xFF320064),
+                ballColor = Color(0xFF320064),
             ) {
                 bottomBarList.forEachIndexed {index, item ->
                     Box(
-                        modifier = modifier
+                        modifier = modifier.background(Color(0xFF320064))
                             .fillMaxSize()
                             .noRippleClickable {
                                 selectedIndex = index
@@ -75,8 +77,8 @@ fun UniTaskApp(
                             modifier = modifier.size(26.dp),
                             imageVector = item.icon,
                             contentDescription = null,
-                            tint = if(selectedIndex == index) MaterialTheme.colorScheme.onPrimary
-                            else MaterialTheme.colorScheme.inversePrimary
+                            tint = if(selectedIndex == index) Color(0xFFD9D0DE)
+                            else Color(0xFFFFFFF7)
                         )
                     }
                 }

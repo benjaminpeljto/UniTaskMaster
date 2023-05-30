@@ -26,7 +26,7 @@ fun CurrentTasks(
     onRequestDetails: (Int) -> Unit
 ) {
     Column(
-    modifier = modifier
+    modifier = modifier.background(Color(0xFFD9D0DE))
     .padding(padding)
         .padding(bottom = 67.dp)
     ) {
@@ -39,7 +39,7 @@ fun CurrentTasks(
 //*****************  TaskList  *****************//
         LazyColumn(
             modifier = modifier.fillMaxSize()
-                .background(Color(0xFF121212)),
+                .background(Color(0xFFD9D0DE)),
             verticalArrangement = Arrangement.Top,
         ) {
             items(taskList) { task ->

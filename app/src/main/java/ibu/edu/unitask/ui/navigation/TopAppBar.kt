@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
@@ -32,13 +33,15 @@ fun UniTaskTopAppBar(
                 IconButton(onClick = navigateUp) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = Color(0xFFFFFFF7)
                     )
                 }
             }
         )
     } else {
-        TopAppBar(title = { Text(title, color = Color(0xFFFFFFF7)) }, modifier = modifier,
+        TopAppBar(title = { Text(title, color = Color(0xFFFFFFF7) ,style= MaterialTheme.typography.bodyLarge) },
+            modifier = modifier,
             colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color(0xFF320064) ))
     }
 }

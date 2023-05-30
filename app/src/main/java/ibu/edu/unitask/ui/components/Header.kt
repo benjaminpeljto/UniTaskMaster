@@ -37,13 +37,13 @@ fun Header(day: String) {
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF121212))
+            .background(Color(0xFFD9D0DE))
             .padding(start = 20.dp, top = 20.dp, bottom = 15.dp)
     ){
 
         Text(text = day,
             //modifier = Modifier.padding(5.dp,5.dp),
-            color = Color(0xFFFFFFF7),
+            color = Color.Black,
             fontWeight = FontWeight.Bold,
             fontSize = 35.sp,
             style= MaterialTheme.typography.bodyLarge
@@ -53,8 +53,8 @@ fun Header(day: String) {
             text = formattedDate,
             Modifier.padding(5.dp,0.dp),
             fontWeight = FontWeight.Light,
-            style = MaterialTheme.typography.bodySmall,
-            color = Color(0xFFFFFFF7)
+            style = MaterialTheme.typography.headlineMedium,
+            color = Color.Black
         )
     }
 
