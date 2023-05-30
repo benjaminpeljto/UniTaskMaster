@@ -1,8 +1,10 @@
 package ibu.edu.unitask.ui.home
 
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ibu.edu.unitask.data.graph.Graph
@@ -18,6 +20,7 @@ class HomeViewModel(
 
     var state by mutableStateOf(HomeUiState())
         private set
+
 
     //Whenever viewmodel initialized, get tasks
     init {

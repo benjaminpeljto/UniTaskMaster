@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import android.graphics.drawable.Icon
 import android.widget.Toast
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
@@ -18,23 +16,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ibu.edu.unitask.R
-import ibu.edu.unitask.data.models.Task
 import ibu.edu.unitask.ui.components.AllTasksCompleted
 import ibu.edu.unitask.ui.components.CurrentTasks
 import ibu.edu.unitask.ui.delete_task_alert.DeleteTaskAlertDialog
 import ibu.edu.unitask.ui.edit_task.EditTaskAlertDialog
 import ibu.edu.unitask.ui.navigation.NavigationDestination
 import ibu.edu.unitask.ui.navigation.UniTaskTopAppBar
-import java.text.SimpleDateFormat
-
+import kotlin.coroutines.coroutineContext
 
 
 object HomeDestination : NavigationDestination {
@@ -57,6 +53,7 @@ fun HomeScreen(
 ) {
     val viewModel = viewModel(modelClass = HomeViewModel::class.java)
     val homeUiState = viewModel.state
+    val context = LocalContext.current
 
     if (homeUiState.confirmDelete) {
         val idDeleted = homeUiState.taskForDeletion.id
@@ -96,6 +93,11 @@ fun HomeScreen(
                     padding = innerPadding,
                     onCheckedChange = { task, finished ->
                         viewModel.onTaskCheckedChange(task, finished)
+                        Toast.makeText(
+                            context,
+                            "Task moved to finished tasks",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     },
                     deleteTask = {
                         viewModel.openDeleteDialog()
