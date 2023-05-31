@@ -125,8 +125,9 @@ fun TaskCardFinished(
                         )
                         Text(
                             text = DateFormatter(task.dueDate),
-                            color = DateTester(task.dueDate, Calendar.getInstance().time),
+                            color = Color(0xFFFFFFF7),
                             fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = modifier.padding(end = 10.dp)
                         )

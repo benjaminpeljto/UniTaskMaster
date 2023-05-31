@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import ibu.edu.unitask.data.models.Task
 import ibu.edu.unitask.ui.utils.DateFormatter
 import ibu.edu.unitask.ui.utils.DateTester
+import java.time.format.TextStyle
 import java.util.Calendar
 
 @Composable
@@ -129,6 +130,7 @@ fun TaskCard(
                             color = DateTester(task.dueDate, Calendar.getInstance().time),
                             fontSize = 15.sp,
                             style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
                             modifier = modifier.padding(end = 10.dp)
                         )
 

@@ -1,12 +1,17 @@
 package ibu.edu.unitask.ui.details
 
+import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,9 +35,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,6 +51,8 @@ import ibu.edu.unitask.ui.navigation.NavigationDestination
 import ibu.edu.unitask.ui.navigation.UniTaskTopAppBar
 import ibu.edu.unitask.ui.utils.DateFormatter
 import java.util.Calendar
+import androidx.compose.ui.platform.LocalClipboardManager
+
 
 object TaskDetailsDestination : NavigationDestination{
     override val route = "task_details/{id}"
@@ -50,6 +60,7 @@ object TaskDetailsDestination : NavigationDestination{
     override val icon = Icons.Default.ArrowForward
 }
 
+@SuppressLint("ServiceCast")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskDetailsScreen(
@@ -60,6 +71,8 @@ fun TaskDetailsScreen(
 ) {
     val viewModel = viewModel(modelClass = TaskDetailsViewModel::class.java)
     val taskDetailsUiState = viewModel.state
+    val context = LocalContext.current
+    val clipboardManager = LocalClipboardManager.current
 
     LaunchedEffect(key1 = true) {
         viewModel.getTask(taskId)
@@ -118,62 +131,99 @@ fun TaskDetailsScreen(
                     modifier = modifier.background(Color.Transparent)
                 ) {
                     Icon(imageVector = Icons.Filled.Info, contentDescription = null)
-                    Text(text = "Title: ",
+                    Text(
+                        text = "Title: ",
                         style = MaterialTheme.typography.bodyLarge
                     )
-                    TextField(
-                        value = taskDetailsUiState.task.title,
-                        textStyle = MaterialTheme.typography.headlineMedium,
-                    onValueChange = {},
-                        readOnly = true,
+                    Text(
+                        text = taskDetailsUiState.task.title,
+                    )
+                    Spacer(modifier = Modifier.weight(1f)) // Add a spacer to push the icon to the end
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_content_copy_24),
+                        contentDescription = "copy",
                         modifier = Modifier
-                            .height(IntrinsicSize.Min)
-                            .border(1.dp, Color.Black, shape = RoundedCornerShape(percent = 50)),
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Color.Transparent
-                        )
+                            .clickable {
+                                val annotatedString = buildAnnotatedString {
+                                    append(taskDetailsUiState.task.title)
+                                }
+
+                                clipboardManager.setText(annotatedString)
+                                Toast
+                                    .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                            .padding(end = 10.dp)
+                            .padding(start = 8.dp)
+                            .align(Alignment.CenterVertically),
+                        tint = Color(0xFFFFFFF7)
                     )
                 }
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(imageVector = Icons.Filled.Info, contentDescription = null)
+                    Icon(painter = painterResource(id = R.drawable.baseline_description_24), contentDescription = null)
                     Text(text = "Description: ",
                         style = MaterialTheme.typography.bodyLarge
                     )
-                    TextField(
-                        value = taskDetailsUiState.task.description,
-                        textStyle = MaterialTheme.typography.headlineMedium,
-                        onValueChange = {},
-                        readOnly = true ,
+                    Text(
+                            text = taskDetailsUiState.task.description,
+                    )
+                    Spacer(modifier = Modifier.weight(1f)) // Add a spacer to push the icon to the end
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_content_copy_24),
+                        contentDescription = "copy",
                         modifier = Modifier
-                            .height(IntrinsicSize.Min)
-                            .border(1.dp, Color.Black, shape = RoundedCornerShape(percent = 50)),
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Color.Transparent
-                        )
+                            .clickable {
+                                val annotatedString = buildAnnotatedString {
+                                    append(taskDetailsUiState.task.description)
+                                }
+
+                                clipboardManager.setText(annotatedString)
+                                Toast
+                                    .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                            .padding(end = 10.dp)
+                            .padding(start = 8.dp)
+                            .align(Alignment.CenterVertically),
+                        tint = Color(0xFFFFFFF7)
                     )
                 }
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(imageVector = Icons.Filled.Star, contentDescription = null)
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_subject_24),
+                        contentDescription = null
+                    )
                     Text(text = "Course: ",
                         style = MaterialTheme.typography.bodyLarge
                     )
-                    TextField(
-                        value = taskDetailsUiState.task.course,
-                        textStyle = MaterialTheme.typography.headlineMedium,
-                        onValueChange = {},
-                        readOnly = true,
+                    Text(
+                        text = taskDetailsUiState.task.course,
+                    )
+                    Spacer(modifier = Modifier.weight(1f)) // Add a spacer to push the icon to the end
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_content_copy_24),
+                        contentDescription = "copy",
                         modifier = Modifier
-                            .height(IntrinsicSize.Min)
-                            .border(1.dp, Color.Black, shape = RoundedCornerShape(percent = 50)),
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Color.Transparent
-                        )
+                            .clickable {
+                                val annotatedString = buildAnnotatedString {
+                                    append(taskDetailsUiState.task.course)
+                                }
+
+                                clipboardManager.setText(annotatedString)
+                                Toast
+                                    .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                            .padding(end = 10.dp)
+                            .padding(start = 8.dp)
+                            .align(Alignment.CenterVertically),
+                        tint = Color(0xFFFFFFF7)
                     )
                 }
 
@@ -183,17 +233,28 @@ fun TaskDetailsScreen(
                     Icon(imageVector = Icons.Filled.DateRange, contentDescription = null)
                     Text(text = "Due date: ",
                         style = MaterialTheme.typography.bodyLarge)
-                    TextField(
-                        value = DateFormatter(taskDetailsUiState.task.dueDate),
-                        textStyle = MaterialTheme.typography.headlineMedium,
-                        onValueChange = {},
-                        readOnly = true,
+                    Text(
+                        text = DateFormatter(taskDetailsUiState.task.dueDate),
+                    )
+                    Spacer(modifier = Modifier.weight(1f)) // Add a spacer to push the icon to the end
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_content_copy_24),
+                        contentDescription = "copy",
                         modifier = Modifier
-                            .height(IntrinsicSize.Min)
-                            .border(1.dp, Color.Black, shape = RoundedCornerShape(percent = 50)),
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Color.Transparent
-                        )
+                            .clickable {
+                                val annotatedString = buildAnnotatedString {
+                                    append(DateFormatter(taskDetailsUiState.task.dueDate))
+                                }
+
+                                clipboardManager.setText(annotatedString)
+                                Toast
+                                    .makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                            .padding(end = 10.dp)
+                            .padding(start = 8.dp)
+                            .align(Alignment.CenterVertically),
+                        tint = Color(0xFFFFFFF7)
                     )
                 }
 
