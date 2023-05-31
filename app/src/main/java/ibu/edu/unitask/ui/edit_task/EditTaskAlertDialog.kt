@@ -52,7 +52,7 @@ fun EditTaskAlertDialog(
     }
 
     AlertDialog(
-        containerColor = Color(0xFFD9D0DE),
+        containerColor = Color(0xFFECE7EE),
         onDismissRequest = { onDismiss() },
         title = {
             Text(text = "Edit Task" ,style= MaterialTheme.typography.bodyLarge

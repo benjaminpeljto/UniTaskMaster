@@ -78,7 +78,7 @@ fun UniTaskApp(
                             imageVector = item.icon,
                             contentDescription = null,
                             tint = if(selectedIndex == index) Color(0xFFD9D0DE)
-                            else Color(0xFFFFFFF7)
+                            else Color(0xFFECE7EE)
                         )
                     }
                 }

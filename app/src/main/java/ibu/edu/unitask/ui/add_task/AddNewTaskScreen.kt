@@ -79,7 +79,7 @@ fun AddNewTaskScreen(
             }
     ){innerPadding ->
         Column(
-            modifier = Modifier.background(Color(0xFFD9D0DE))
+            modifier = Modifier.background(Color(0xFFECE7EE))
                 .padding(innerPadding)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally

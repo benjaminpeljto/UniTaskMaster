@@ -16,7 +16,7 @@ fun DeleteTaskAlertDialog(
     onDismissRequest:() -> Unit
 ){
     AlertDialog(
-        containerColor = Color(0xFFD9D0DE),
+        containerColor = Color(0xFFECE7EE),
         onDismissRequest = onDismissRequest,
         title = {
             Text(text = stringResource(R.string.delete_task_dialog_title),style= MaterialTheme.typography.bodyLarge)

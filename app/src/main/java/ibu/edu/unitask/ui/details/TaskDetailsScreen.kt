@@ -93,7 +93,7 @@ fun TaskDetailsScreen(
         ) {
             Column(
                 modifier = modifier
-                    .background(Color(0xFFD9D0DE))
+                    .background(Color(0xFFECE7EE))
                     .fillMaxSize()
                     .padding(it)
                     .padding(bottom = 50.dp),

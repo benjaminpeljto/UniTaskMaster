@@ -37,7 +37,7 @@ fun Header(day: String) {
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFFD9D0DE))
+            .background(Color(0xFFECE7EE))
             .padding(start = 20.dp, top = 20.dp, bottom = 15.dp)
     ){
 
