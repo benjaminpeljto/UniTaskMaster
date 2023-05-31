@@ -79,7 +79,7 @@ fun AddNewTaskScreen(
             }
     ){innerPadding ->
         Column(
-            modifier = Modifier.background(Color(0xFFF8F6F4))
+            modifier = Modifier.background(Color(0xFFD9D0DE))
                 .padding(innerPadding)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -89,7 +89,6 @@ fun AddNewTaskScreen(
             ){
                 Text(
                     text = stringResource(R.string.add_a_new_task_here),
-                    fontSize = 30.sp,
                     modifier = Modifier
                         .padding(bottom = 16.dp, top = 16.dp)
                         .fillMaxWidth(),
@@ -100,7 +99,10 @@ fun AddNewTaskScreen(
                 OutlinedTextField(
                     label = {
                         Text(text = stringResource(R.string.task_title),
-                                style = MaterialTheme.typography.headlineLarge)
+                                style = MaterialTheme.typography.headlineMedium,
+
+                            )
+
                     },
                     value = addTaskUiState.taskTitle,
                     onValueChange = { text ->
@@ -119,7 +121,8 @@ fun AddNewTaskScreen(
                 OutlinedTextField(
                     label = {
                         Text(text = stringResource(R.string.task_description),
-                            style = MaterialTheme.typography.headlineLarge)
+                            style = MaterialTheme.typography.headlineMedium
+                            )
                     },
                     value = addTaskUiState.taskDescription,
                     onValueChange = {text ->
@@ -132,7 +135,7 @@ fun AddNewTaskScreen(
                 OutlinedTextField(
                     label = {
                         Text(text = stringResource(R.string.task_course),
-                            style = MaterialTheme.typography.headlineLarge)
+                            style = MaterialTheme.typography.headlineMedium)
                     },
                     value = addTaskUiState.taskCourse,
                     onValueChange = {text ->
@@ -153,13 +156,12 @@ fun AddNewTaskScreen(
                             imageVector = Icons.Default.DateRange,
                             contentDescription = null,
                             modifier = modifier
-                                .size(40.dp)
+                                .size(30.dp)
                         )
                         Spacer(modifier = modifier.size(10.dp))
                         Text(
                             text = DateFormatter(addTaskUiState.dueDate),
-                            fontSize = 20.sp,
-                            style = MaterialTheme.typography.headlineLarge
+                            style = MaterialTheme.typography.headlineMedium
                         )
                         Spacer(modifier = modifier.size(10.dp))
                         val mDatePicker = datePickerDialog(
