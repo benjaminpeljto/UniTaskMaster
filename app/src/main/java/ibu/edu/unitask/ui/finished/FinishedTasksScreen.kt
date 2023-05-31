@@ -1,5 +1,6 @@
 package ibu.edu.unitask.ui.finished
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -11,11 +12,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ibu.edu.unitask.R
 import ibu.edu.unitask.ui.components.TaskCard
+import ibu.edu.unitask.ui.components.TaskCardFinished
+import ibu.edu.unitask.ui.delete_task_alert.DeleteTaskAlertDialog
 import ibu.edu.unitask.ui.navigation.NavigationDestination
 import ibu.edu.unitask.ui.navigation.UniTaskTopAppBar
 
@@ -35,7 +39,15 @@ fun FinishedTasksScreen(
     onRequestDetails:(Int) -> Unit
 ) {
     val viewModel = viewModel(modelClass = FinishedTasksViewModel::class.java)
-    val finishedTasksUiState = viewModel.state.tasks
+    val finishedTasksUiState = viewModel.state
+
+
+    if (finishedTasksUiState.confirmDelete) {
+        val idDeleted = finishedTasksUiState.taskForDeletion.id
+        viewModel.deleteTask(finishedTasksUiState.taskForDeletion)
+        Toast.makeText(LocalContext.current, "Task no. $idDeleted deleted successfully!", Toast.LENGTH_SHORT).show()
+    }
+
     Scaffold(
         topBar = {
             UniTaskTopAppBar(
@@ -53,15 +65,18 @@ fun FinishedTasksScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = modifier
             ) {
-                items(finishedTasksUiState) { task ->
+                items(finishedTasksUiState.tasks) { task ->
                     if(task.isFinished) {
-                        TaskCard(
+                        TaskCardFinished(
                             task = task,
                             isChecked = task.isFinished,
                             onCheckedChange = {_,_ -> },
-                            onDelete = {},
+                            onDelete =
+                            {
+                                viewModel.assignTaskForDeletion(it)
+                                viewModel.openDeleteDialog()
+                            },
                             modifier = modifier,
-                            onEdit = {},
                             onRequestDetails = onRequestDetails
                         )
                     }
@@ -69,6 +84,17 @@ fun FinishedTasksScreen(
 
             }
 
+        }
+        if (finishedTasksUiState.openDeleteDialog) {
+            DeleteTaskAlertDialog(
+                onDelete = {
+                    viewModel.confirmDeletion()
+                    viewModel.closeDeleteDialog()
+                },
+                onDismissRequest = {
+                    viewModel.closeDeleteDialog()
+                }
+            )
         }
     }
 }

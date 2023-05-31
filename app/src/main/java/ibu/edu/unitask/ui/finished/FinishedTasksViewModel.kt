@@ -10,6 +10,7 @@ import ibu.edu.unitask.data.models.Task
 import ibu.edu.unitask.data.repository.OfflineRepository
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class FinishedTasksViewModel (
     private val repository: OfflineRepository = Graph.repository
@@ -22,6 +23,14 @@ class FinishedTasksViewModel (
         getTasks()
     }
 
+    fun deleteTask(task: Task){
+        viewModelScope.launch {
+            repository.deleteTask(task)
+        }
+        closeDeleteDialog()
+        denyDeletion()
+    }
+
     private fun getTasks(){
         viewModelScope.launch {
             repository.getAllTasks().collectLatest {
@@ -29,8 +38,37 @@ class FinishedTasksViewModel (
             }
         }
     }
+
+    fun assignTaskForDeletion(task: Task){
+        state = state.copy(taskForDeletion = task)
+    }
+
+    fun openDeleteDialog(){
+        state = state.copy(openDeleteDialog = true)
+    }
+
+    fun closeDeleteDialog(){
+        state = state.copy(openDeleteDialog = false)
+    }
+
+    fun confirmDeletion(){
+        state = state.copy(confirmDelete = true)
+    }
+
+    fun denyDeletion(){
+        state = state.copy(confirmDelete = false)
+    }
 }
 
 data class FinishedTasksUiState(
-    val tasks: List<Task> = emptyList()
+    val tasks: List<Task> = emptyList(),
+    val openDeleteDialog: Boolean = false,
+    val confirmDelete: Boolean = false,
+    val taskForDeletion: Task = Task(
+        id = -1,
+        title = "",
+        course = "",
+        description = "",
+        dueDate = Date()
+    ),
 )
