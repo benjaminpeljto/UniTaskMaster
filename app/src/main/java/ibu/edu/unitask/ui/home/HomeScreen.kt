@@ -86,7 +86,7 @@ fun HomeScreen(
             }
         ) {
                 innerPadding ->
-            if (homeUiState.tasks.isEmpty()) {
+            if (homeUiState.allFinished) {
                 AllTasksCompleted()
             } else {
                 CurrentTasks(

@@ -141,7 +141,7 @@ fun EditTaskAlertDialog(
                             id = taskForEditId,
                             title = editTaskUiState.taskTitle,
                             description = editTaskUiState.taskDescription,
-                            course = editTaskUiState.taskCourse,
+                            course = editTaskUiState.taskCourse.uppercase(),
                             dueDate = editTaskUiState.dueDate,
                             isFinished = editTaskUiState.isFinished
                         )

@@ -31,6 +31,13 @@ class HomeViewModel(
         viewModelScope.launch {
             repository.getAllTasks().collectLatest {
                 state = state.copy(tasks = it)
+                it.forEach{
+                    if(!it.isFinished){
+                        state = state.copy(allFinished = false)
+                        return@collectLatest
+                    }
+                }
+                state = state.copy(allFinished = true)
             }
         }
     }
@@ -38,9 +45,21 @@ class HomeViewModel(
     fun deleteTask(task: Task){
         viewModelScope.launch {
             repository.deleteTask(task)
+            checkAllTasksFinished()
         }
         closeDeleteDialog()
         denyDeletion()
+    }
+
+    private fun checkAllTasksFinished() {
+        val tasks = state.tasks
+        tasks.forEach{
+            if(!it.isFinished){
+                state = state.copy(allFinished = false)
+                return
+            }
+            state = state.copy(allFinished = true)
+        }
     }
 
     fun onTaskCheckedChange(task: Task, isFinished: Boolean){
@@ -94,6 +113,7 @@ class HomeViewModel(
 
 data class HomeUiState(
     val tasks: List<Task> = emptyList(),
+    val allFinished: Boolean = true,
     val openEditDialog: Boolean = false,
     val openDeleteDialog: Boolean = false,
     val taskForEditId: Int = -1,
